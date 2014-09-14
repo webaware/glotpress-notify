@@ -3,7 +3,7 @@
 Plugin Name: GlotPress Notify
 Plugin URI: http://shop.webaware.com.au/downloads/glotpress-notify/
 Description: notify WordPress users when new GlotPress translations strings are awaiting review
-Version: 1.0.0-dev
+Version: 1.0.0
 Author: WebAware
 Author URI: http://webaware.com.au/
 Text Domain: glotpress-notify
@@ -32,7 +32,7 @@ if (!defined('GPNOTIFY_PLUGIN_ROOT')) {
 	define('GPNOTIFY_PLUGIN_ROOT', dirname(__FILE__) . '/');
 	define('GPNOTIFY_PLUGIN_NAME', basename(dirname(__FILE__)) . '/' . basename(__FILE__));
 	define('GPNOTIFY_OPTIONS', 'gpnotify');
-	define('GPNOTIFY_PLUGIN_VERSION', '1.0.0-dev');
+	define('GPNOTIFY_PLUGIN_VERSION', '1.0.0');
 
 	// scheduled tasks
 	define('GPNOTIFY_TASK_NOTIFY_WAITING', 'gpnotify_waiting');

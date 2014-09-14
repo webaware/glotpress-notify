@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: glotpress-notify\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-09-13 19:40+1000\n"
-"PO-Revision-Date: 2014-09-13 19:41+1000\n"
+"POT-Creation-Date: 2014-09-15 09:49+1000\n"
+"PO-Revision-Date: 2014-09-15 09:49+1000\n"
 "Last-Translator: Ross McKay <rmckay@webaware.com.au>\n"
 "Language-Team: \n"
 "Language: en_US\n"
@@ -36,7 +36,7 @@ msgid "Subscriptions"
 msgstr ""
 
 #: ../includes/class.GPNotifyPlugin.php:83
-#: ../includes/class.GPNotifyPlugin.php:270
+#: ../includes/class.GPNotifyPlugin.php:261
 msgid "Settings"
 msgstr ""
 
@@ -44,27 +44,27 @@ msgstr ""
 msgid "Subscriptions saved."
 msgstr ""
 
-#: ../includes/class.GPNotifyPlugin.php:253
+#: ../includes/class.GPNotifyPlugin.php:244
 #, php-format
 msgid "Notification of translations for \"%s\""
 msgstr ""
 
-#: ../includes/class.GPNotifyPlugin.php:281
+#: ../includes/class.GPNotifyPlugin.php:272
 msgctxt "plugin details links"
 msgid "Get help"
 msgstr ""
 
-#: ../includes/class.GPNotifyPlugin.php:282
+#: ../includes/class.GPNotifyPlugin.php:273
 msgctxt "plugin details links"
 msgid "Rating"
 msgstr ""
 
-#: ../includes/class.GPNotifyPlugin.php:283
+#: ../includes/class.GPNotifyPlugin.php:274
 msgctxt "plugin details links"
 msgid "Translate"
 msgstr ""
 
-#: ../includes/class.GPNotifyPlugin.php:284
+#: ../includes/class.GPNotifyPlugin.php:275
 msgctxt "plugin details links"
 msgid "Donate"
 msgstr ""
@@ -94,7 +94,7 @@ msgid "GlotPress Notify Projects"
 msgstr ""
 
 #: ../views/admin-list-projects.php:11
-msgid "There are no GlotPress projects with translations waiting approval."
+msgid "There are no GlotPress projects with translations waiting for approval."
 msgstr ""
 
 #: ../views/admin-list-projects.php:22 ../templates/email-waiting.php:23

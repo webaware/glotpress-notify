@@ -7,7 +7,7 @@ Donate link: http://shop.webaware.com.au/glotpress-notify/
 Tags: glotpress, translations, localization, localisation, language
 Requires at least: 3.7
 Tested up to: 4.0
-Stable tag: trunk
+Stable tag: 1.0.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -38,6 +38,8 @@ If you'd like to help out by translating this plugin, please [sign up for an acc
 
 Yes. This plugin only looks at GlotPress tables in the same database as the WordPress installation it's running from.
 
+It's not unusual for a WordPress installation to be set up on the same database as GlotPress, with the wp_users table as the GlotPress users table, because it makes it easier to manage user registrations. This is how I have it, and why I wrote the notifications plugin as a WordPress plugin.
+
 = Can it manage multiple GlotPress installations? =
 
 Not yet.
@@ -59,5 +61,5 @@ Yes, copy it from the plugin's templates folder into your theme, in a folder cal
 
 == Changelog ==
 
-= 1.0.0 [soon...] =
+= 1.0.0 [2014-09-15] =
 * initial public version
