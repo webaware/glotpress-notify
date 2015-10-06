@@ -24,7 +24,11 @@ Admins, validators, and translators can all view strings waiting for approval an
 
 = Translations =
 
-If you'd like to help out by translating this plugin, please [sign up for an account and dig in](http://translate.webaware.com.au/projects/glotpress-notify). Yes, it's GlotPress.
+Many thanks to the generous efforts of our translators:
+
+* French (fr-FR) -- [Hugo Catellier](http://www.eticweb.ca/)
+
+If you'd like to help out by translating this plugin, please [sign up for an account and dig in](https://translate.webaware.com.au/projects/glotpress-notify). Yes, it's GlotPress.
 
 == Installation ==
 
@@ -61,5 +65,10 @@ Yes, copy it from the plugin's templates folder into your theme, in a folder cal
 
 == Changelog ==
 
-= 1.0.0 [2014-09-15] =
+= 1.0.1, soon...
+
+* added: French translation (thanks, [Hugo Catellier](http://www.eticweb.ca/)!)
+
+= 1.0.0, 2014-09-15
+
 * initial public version
