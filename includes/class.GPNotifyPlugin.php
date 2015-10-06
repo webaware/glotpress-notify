@@ -269,10 +269,10 @@ class GPNotifyPlugin {
 	*/
 	public function addPluginDetailsLinks($links, $file) {
 		if ($file == GPNOTIFY_PLUGIN_NAME) {
-			$links[] = sprintf('<a href="http://wordpress.org/support/plugin/glotpress-notify">%s</a>', _x('Get help', 'plugin details links', 'glotpress-notify'));
-			$links[] = sprintf('<a href="http://wordpress.org/plugins/glotpress-notify/">%s</a>', _x('Rating', 'plugin details links', 'glotpress-notify'));
-			$links[] = sprintf('<a href="http://translate.webaware.com.au/projects/glotpress-notify">%s</a>', _x('Translate', 'plugin details links', 'glotpress-notify'));
-			$links[] = sprintf('<a href="http://shop.webaware.com.au/downloads/glotpress-notify/">%s</a>', _x('Donate', 'plugin details links', 'glotpress-notify'));
+			$links[] = sprintf('<a href="https://wordpress.org/support/plugin/glotpress-notify">%s</a>', _x('Get help', 'plugin details links', 'glotpress-notify'));
+			$links[] = sprintf('<a href="https://wordpress.org/plugins/glotpress-notify/">%s</a>', _x('Rating', 'plugin details links', 'glotpress-notify'));
+			$links[] = sprintf('<a href="https://translate.webaware.com.au/projects/glotpress-notify">%s</a>', _x('Translate', 'plugin details links', 'glotpress-notify'));
+			$links[] = sprintf('<a href="http://shop.webaware.com.au/donations/?donation_for=GlotPress+Notify">%s</a>', _x('Donate', 'plugin details links', 'glotpress-notify'));
 		}
 
 		return $links;

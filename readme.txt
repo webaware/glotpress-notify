@@ -3,10 +3,10 @@ Contributors: webaware
 Plugin Name: GlotPress Notify
 Plugin URI: http://shop.webaware.com.au/glotpress-notify/
 Author URI: http://webaware.com.au/
-Donate link: http://shop.webaware.com.au/glotpress-notify/
+Donate link: http://shop.webaware.com.au/donations/?donation_for=GlotPress+Notify
 Tags: glotpress, translations, localization, localisation, language
 Requires at least: 3.7
-Tested up to: 4.0
+Tested up to: 4.3.1
 Stable tag: 1.0.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -32,7 +32,7 @@ If you'd like to help out by translating this plugin, please [sign up for an acc
 
 == Installation ==
 
-1. Either install automatically through the WordPress admin, or download the .zip file, unzip to a folder, and upload the folder to your /wp-content/plugins/ directory. Read [Installing Plugins](http://codex.wordpress.org/Managing_Plugins#Installing_Plugins) in the WordPress Codex for details.
+1. Either install automatically through the WordPress admin, or download the .zip file, unzip to a folder, and upload the folder to your /wp-content/plugins/ directory. Read [Installing Plugins](https://codex.wordpress.org/Managing_Plugins#Installing_Plugins) in the WordPress Codex for details.
 2. Activate the plugin through the 'Plugins' menu in WordPress.
 3. Go to GlotPress Notify > Settings in the admin and set the GlotPress table prefix and sender email address
 
@@ -60,7 +60,7 @@ Yes, copy it from the plugin's templates folder into your theme, in a folder cal
 
 == Contributions ==
 
-* [Translate into your preferred language](http://translate.webaware.com.au/projects/glotpress-notify)
+* [Translate into your preferred language](https://translate.webaware.com.au/projects/glotpress-notify)
 * [Fork me on GitHub](https://github.com/webaware/glotpress-notify)
 
 == Changelog ==
