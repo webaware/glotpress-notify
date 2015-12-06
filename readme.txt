@@ -29,7 +29,7 @@ Many thanks to the generous efforts of our translators:
 * Dutch (nl-NL) -- [Sander Keuzenkamp](https://ribwhost.nl/)
 * French (fr-FR) -- [Hugo Catellier](http://www.eticweb.ca/)
 
-If you'd like to help out by translating this plugin, please [sign up for an account and dig in](https://translate.webaware.com.au/projects/glotpress-notify). Yes, it's GlotPress.
+If you'd like to help out by translating this plugin, please [sign up for an account and dig in](https://translate.wordpress.org/projects/wp-plugins/glotpress-notify). Yes, it's GlotPress.
 
 == Installation ==
 
@@ -61,7 +61,7 @@ Yes, copy it from the plugin's templates folder into your theme, in a folder cal
 
 == Contributions ==
 
-* [Translate into your preferred language](https://translate.webaware.com.au/projects/glotpress-notify)
+* [Translate into your preferred language](https://translate.wordpress.org/projects/wp-plugins/glotpress-notify)
 * [Fork me on GitHub](https://github.com/webaware/glotpress-notify)
 
 == Changelog ==

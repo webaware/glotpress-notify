@@ -8,5 +8,5 @@ notify WordPress users when new GlotPress translations strings are awaiting revi
 * [Download](https://wordpress.org/plugins/glotpress-notify/)
 * [Documentation](https://wordpress.org/plugins/glotpress-notify/faq/)
 * [Support](https://wordpress.org/support/plugin/glotpress-notify)
-* [Translate](https://translate.webaware.com.au/projects/glotpress-notify)
+* [Translate](https://translate.wordpress.org/projects/wp-plugins/glotpress-notify)
 * [Donate](http://shop.webaware.com.au/donations/?donation_for=GlotPress+Notify)
