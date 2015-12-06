@@ -26,6 +26,7 @@ Admins, validators, and translators can all view strings waiting for approval an
 
 Many thanks to the generous efforts of our translators:
 
+* Dutch (nl-NL) -- [Sander Keuzenkamp](https://ribwhost.nl/)
 * French (fr-FR) -- [Hugo Catellier](http://www.eticweb.ca/)
 
 If you'd like to help out by translating this plugin, please [sign up for an account and dig in](https://translate.webaware.com.au/projects/glotpress-notify). Yes, it's GlotPress.
@@ -67,6 +68,7 @@ Yes, copy it from the plugin's templates folder into your theme, in a folder cal
 
 = 1.0.1, soon...
 
+* added: Dutch translation (thanks, [Sander Keuzenkamp](https://ribwhost.nl/)!)
 * added: French translation (thanks, [Hugo Catellier](http://www.eticweb.ca/)!)
 
 = 1.0.0, 2014-09-15
