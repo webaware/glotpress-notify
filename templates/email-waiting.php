@@ -1,5 +1,9 @@
 <?php
 // email template for waiting summary notification
+
+if (!defined('ABSPATH')) {
+	exit;
+}
 ?>
 <!DOCTYPE>
 <html>

@@ -1,5 +1,9 @@
 <?php
 
+if (!defined('ABSPATH')) {
+	exit;
+}
+
 /**
 * array filter for finding users who have subscribed to GlotPress projects
 */

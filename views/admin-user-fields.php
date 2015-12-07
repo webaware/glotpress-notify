@@ -1,5 +1,9 @@
 <?php
 // user profile fields for GlotPress notifications
+
+if (!defined('ABSPATH')) {
+	exit;
+}
 ?>
 
 <div class="wrap">

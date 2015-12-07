@@ -1,5 +1,9 @@
 <?php
 // "bad GlotPress prefix" error
+
+if (!defined('ABSPATH')) {
+	exit;
+}
 ?>
 
 <div class="wrap">

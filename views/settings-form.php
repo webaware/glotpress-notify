@@ -1,6 +1,10 @@
 <?php
 // settings form
 
+if (!defined('ABSPATH')) {
+	exit;
+}
+
 global $wp_version;
 ?>
 
