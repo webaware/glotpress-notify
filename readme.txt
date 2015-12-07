@@ -64,6 +64,12 @@ Yes, copy it from the plugin's templates folder into your theme, in a folder cal
 * [Translate into your preferred language](https://translate.wordpress.org/projects/wp-plugins/glotpress-notify)
 * [Fork me on GitHub](https://github.com/webaware/glotpress-notify)
 
+== Upgrade Notice ==
+
+= 1.0.1 =
+
+Translations for nl_NL, fr_FR
+
 == Changelog ==
 
 ### 1.0.1, 2015-12-07
