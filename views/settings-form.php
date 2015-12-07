@@ -4,13 +4,10 @@
 if (!defined('ABSPATH')) {
 	exit;
 }
-
-global $wp_version;
 ?>
 
 <div class="wrap">
 
-	<?php if (version_compare($wp_version, '3.8', '<')) screen_icon('options-general'); ?>
 	<h2><?php esc_html_e('GlotPress Notify', 'glotpress-notify'); ?></h2>
 
 	<?php settings_errors(); ?>
