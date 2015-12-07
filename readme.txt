@@ -6,8 +6,8 @@ Author URI: http://webaware.com.au/
 Donate link: http://shop.webaware.com.au/donations/?donation_for=GlotPress+Notify
 Tags: glotpress, translations, localization, localisation, language
 Requires at least: 3.7
-Tested up to: 4.3.1
-Stable tag: 1.0.0
+Tested up to: 4.4
+Stable tag: 1.0.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -66,11 +66,12 @@ Yes, copy it from the plugin's templates folder into your theme, in a folder cal
 
 == Changelog ==
 
-= 1.0.1, soon...
+### 1.0.1, 2015-12-07
 
 * added: Dutch translation (thanks, [Sander Keuzenkamp](https://ribwhost.nl/)!)
 * added: French translation (thanks, [Hugo Catellier](http://www.eticweb.ca/)!)
+* changed: translations now accepted on [translate.wordpress.org](https://translate.wordpress.org/projects/wp-plugins/glotpress-notify)
 
-= 1.0.0, 2014-09-15
+### 1.0.0, 2014-09-15
 
 * initial public version
