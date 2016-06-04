@@ -10,6 +10,8 @@ if (!defined('ABSPATH')) {
 class GPNotifyFilterUsers {
 
 	protected $project_id;
+	protected $locale;
+	protected $frequency;
 
 	/**
 	* filter the array, returning only users subscribed to specified project
@@ -17,8 +19,10 @@ class GPNotifyFilterUsers {
 	* @param int $project_id
 	* @return array
 	*/
-	public function execute($users, $project_id) {
+	public function execute($users, $project_id, $locale = false, $frequency = false) {
 		$this->project_id = $project_id;
+		$this->locale = $locale;
+		$this->frequency = $frequency;
 		return array_filter($users, array($this, '_filter'));
 	}
 
@@ -28,7 +32,13 @@ class GPNotifyFilterUsers {
 	* @return bool
 	*/
 	public function _filter($user) {
-		return !empty($user->projects[$this->project_id]);
+		if( empty($this->frequency) || (!empty($user->projects['frequency']) && in_array($this->frequency, $user->projects['frequency'])) ){
+			if( !empty($this->locale) ){
+				return !empty($user->projects['waiting'][$this->project_id][$this->locale]);
+			}else{
+				return !empty($user->projects['waiting'][$this->project_id]) && !is_array($user->projects['waiting'][$this->project_id]);			
+			}
+		}
 	}
 
 }
