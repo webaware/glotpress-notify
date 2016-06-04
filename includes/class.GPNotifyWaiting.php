@@ -29,7 +29,7 @@ class GPNotifyWaiting {
 	* @param string $subject
 	* @param array $translations
 	*/
-	public function compose($subject, $translations) {
+	public function compose($subject, $translations, $scope) {
 		$title   = apply_filters('gnotify_waiting_title', $subject, $translations, $this->users);
 		$subject = apply_filters('gnotify_waiting_subject', $subject, $translations, $this->users);
 

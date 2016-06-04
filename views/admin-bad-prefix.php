@@ -9,8 +9,7 @@ if (!defined('ABSPATH')) {
 <div class="wrap">
 
 	<div class="error">
-		<p><?php esc_html_e('GlotPress Notify has an invalid GlotPress table prefix.', 'gpnotify'); ?></p>
+		<p><?php esc_html_e('GlotPress Notify has an invalid GlotPress table prefix.', 'glotpress-notify'); ?></p>
 	</div>
 
 </div>
-

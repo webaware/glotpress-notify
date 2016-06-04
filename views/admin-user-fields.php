@@ -8,8 +8,8 @@ if (!defined('ABSPATH')) {
 
 <div class="wrap">
 
-	<h2><?php esc_html_e('GlotPress Notify Subscriptions', 'gpnotify'); ?></h2>
-	<p><?php esc_html_e('Receive notifications for GlotPress translation projects.', 'gpnotify'); ?></p>
+	<h2><?php esc_html_e('GlotPress Notify Subscriptions', 'glotpress-notify'); ?></h2>
+	<p><?php esc_html_e('Receive notifications for GlotPress translation projects.', 'glotpress-notify'); ?></p>
 
 	<?php if ($update_message): ?>
 	<div class="updated">
@@ -25,6 +25,7 @@ if (!defined('ABSPATH')) {
 				<tr>
 					<th><?php echo esc_html_x('Project name', 'subscription settings', 'glotpress-notify'); ?></th>
 					<th><?php echo esc_html_x('Project slug', 'subscription settings', 'glotpress-notify'); ?></th>
+					<th><?php echo esc_html_x('Language', 'subscription settings', 'glotpress-notify'); ?></th>
 					<th><?php echo esc_html_x('Waiting', 'subscription settings', 'glotpress-notify'); ?></th>
 				</tr>
 			</thead>
@@ -33,16 +34,16 @@ if (!defined('ABSPATH')) {
 				<tr>
 					<th><?php echo esc_html_x('Project name', 'subscription settings', 'glotpress-notify'); ?></th>
 					<th><?php echo esc_html_x('Project slug', 'subscription settings', 'glotpress-notify'); ?></th>
+					<th><?php echo esc_html_x('Language', 'subscription settings', 'glotpress-notify'); ?></th>
 					<th><?php echo esc_html_x('Waiting', 'subscription settings', 'glotpress-notify'); ?></th>
 				</tr>
 			</tfoot>
 
-			<tbody>
 			<?php $i = 0; foreach ($projects as $project) {
 				$tr_class = ($i % 2) ? '' : 'class="alternate"';
 
 				$fieldbase = "gpnotify_projects_{$project->id}";
-				$waiting = empty($project_options['waiting'][$project->id]) ? 0 : 1;
+				$waiting = empty($project_options['waiting'][$project->id]) || is_array($project_options['waiting'][$project->id]) ? 0 : 1;
 				?>
 
 				<tr <?php echo $tr_class; ?>>
@@ -55,20 +56,56 @@ if (!defined('ABSPATH')) {
 						}
 					?></td>
 					<td><?php echo esc_html($project->slug); ?></td>
-					<td><input type="checkbox" name="<?php echo $fieldbase; ?>_waiting" <?php checked($waiting); ?> value="1" /></td>
+					<td></td>
+					<td><input type="checkbox" class="project-notify" id="project-<?php echo esc_attr($project->slug); ?>" name="<?php echo $fieldbase; ?>_waiting" <?php checked($waiting); ?> value="1" /></td>
 				</tr>
-
+				<tbody class="project-<?php echo esc_attr($project->slug); ?>-langs">
+				<?php 
+					foreach( $translation_sets[$project->id] as $translation_set ){
+						$set_waiting = $waiting || !empty($project_options['waiting'][$project->id][$translation_set->locale]) ? 1 : 0;
+						$set_fieldbase = "gpnotify_sets_{$project->id}[{$translation_set->locale}]";
+						?>
+						<tr <?php echo $tr_class; ?>>
+							<td></td>
+							<td></td>
+							<td><?php echo esc_html($translation_set->name); ?></td>
+							<td><input type="checkbox" name="<?php echo $set_fieldbase; ?>" <?php checked($set_waiting); ?> value="1" /></td>
+						</tr>
+						<?php
+						
+					}
+					?>
+				</tbody>
 			<?php $i++; } ?>
-			</tbody>
-
 		</table>
-
+		<table>
+			<tr>
+				<p><?php esc_html_e('Notify me', 'glotpress-notify'); ?>&nbsp;&nbsp;
+					<label>
+						<input type="checkbox" name="frequency[]" value="day" <?php echo (in_array('day', $project_options['frequency'])) ? 'checked="checked"':'' ?> />
+						<?php esc_html_e('Daily', 'glotpress-notify'); ?>
+					</label> 
+					<label>
+						<input type="checkbox" name="frequency[]" value="week" <?php echo (in_array('week', $project_options['frequency'])) ? 'checked="checked"':'' ?> />
+						<?php esc_html_e('Weekly', 'glotpress-notify'); ?>
+					</label> 
+					<label>
+						<input type="checkbox" name="frequency[]" value="month" <?php echo (in_array('month', $project_options['frequency'])) ? 'checked="checked"':'' ?> />
+						<?php esc_html_e('Monthly', 'glotpress-notify'); ?>
+					</label></p>
 		<p class="submit">
-			<input type="submit" name="submit" class="button-primary" value="<?php esc_attr_e('Save Subscriptions', 'gpnotify'); ?>" />
+			<input type="submit" name="submit" class="button-primary" value="<?php esc_attr_e('Save Subscriptions', 'glotpress-notify'); ?>" />
 			<?php wp_nonce_field('subscribe', 'gpnotify_nonce'); ?>
 		</p>
 
 	</form>
-
+	<script type="text/javascript">
+		jQuery(document).ready(function($){
+			$('input.project-notify:checkbox').click(function(){
+				var box = $(this);
+				$('tbody.'+ box.attr('id') +'-langs input:checkbox').prop('checked', box.prop("checked"));
+			});
+		});
+	</script>
 </div>
 

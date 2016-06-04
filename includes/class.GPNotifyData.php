@@ -154,12 +154,7 @@ class GPNotifyData {
 	*/
 	public function getTranslationURI($project_slug, $locale, $locale_slug) {
 		$uri = false;
-
-		$gp_uri = $this->getOption('uri');
-		if ($gp_uri) {
-			$uri = sprintf('%s/projects/%s/%s/%s', untrailingslashit($gp_uri), $project_slug, $locale, $locale_slug);
-		}
-
+		gp_url_project_locale( $project_slug, $locale, $locale_slug );
 		return $uri;
 	}
 
@@ -225,8 +220,8 @@ class GPNotifyData {
 		// collect list of users who want notifications on waiting translation strings
 		$users = array();
 		foreach ($rows as $row) {
-			$projects = maybe_unserialize($row->projects);
-			if (!empty($projects['waiting'])) {
+			$row->projects = maybe_unserialize($row->projects);
+			if (!empty($row->projects['waiting']) || !empty($row->projects['waiting_locales'])) {
 				$users[$row->user_id] = $row;
 			}
 		}
@@ -238,15 +233,26 @@ class GPNotifyData {
 	* get counts of translations waiting to be validated, keyed by project ID
 	* @return array
 	*/
-	public function listWaitingByProject() {
+	public function listWaitingByProject( $scope = 'all' ) {
 		global $wpdb;
 
+		$scope_condition = '';
+		if( !empty($scope) ){
+			if( $scope == 'day' ){
+				$scope_condition = "WHERE date_modified >= CAST(NOW() - INTERVAL 1 DAY AS DATE)";
+			}elseif( $scope == 'week'){
+				$scope_condition = "WHERE date_modified >= CAST(NOW() - INTERVAL 1 WEEK AS DATE)";
+			}elseif( $scope == 'month'){
+				$scope_condition = "WHERE date_modified >= CAST(NOW() - INTERVAL 1 MONTH AS DATE)";
+			}
+		}
 		$sql = "
 			select s.id, s.project_id, s.name as locale_name, s.locale, s.slug,
 				sum(if(t.status = 'current', 1, 0)) as `current`,
 				sum(if(t.status = 'waiting', 1, 0)) as `waiting`
 			from {$this->translations} as t
 			join {$this->translation_sets} as s on t.translation_set_id = s.id
+			$scope_condition
 			group by s.id, s.project_id, s.name, s.locale, s.slug
 			having sum(if(t.status = 'waiting', 1, 0)) > 0
 			order by s.project_id, s.locale
@@ -256,7 +262,7 @@ class GPNotifyData {
 
 		$waiting = array();
 		foreach ($rows as $row) {
-			$waiting[$row->project_id][] = $row;
+			$waiting[$row->project_id][$row->locale] = $row;
 		}
 
 		// populate the translation links
@@ -264,8 +270,7 @@ class GPNotifyData {
 		foreach ($waiting as $project_id => $translations) {
 			if (!empty($projects[$project_id])) {
 				foreach ($translations as $key => $translation) {
-					$translation_uri = $this->getTranslationURI($projects[$project_id]->slug, $translation->locale, $translation->slug);
-					$waiting[$project_id][$key]->translation_uri = $translation_uri;
+					$waiting[$project_id][$key]->translation_uri = gp_url_project_locale( $projects[$project_id]->slug, $translation->locale, $translation->slug );
 				}
 			}
 		}
@@ -273,4 +278,21 @@ class GPNotifyData {
 		return $waiting;
 	}
 
+	/**
+	 * get projects and translation set data
+	 * @return array:
+	 */
+	public function listTranslationSets(){
+		global $wpdb;
+		$sql = "SELECT * FROM {$this->translation_sets}";
+
+		$rows = $wpdb->get_results($sql);
+		
+		$translations = array();
+		foreach ($rows as $row) {
+			$translations[$row->project_id][$row->locale] = $row;
+		}
+		
+		return $translations;
+	}
 }

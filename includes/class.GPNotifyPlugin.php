@@ -33,10 +33,14 @@ class GPNotifyPlugin {
 		// actions and filters
 		add_action('init', array($this, 'init'));
 		add_action(GPNOTIFY_TASK_NOTIFY_WAITING, array($this, 'taskNotifyWaiting'));
+		add_action('gpnotify_waiting_weekly', array($this, 'taskNotifyWaitingWeekly'));
+		add_action('gpnotify_waiting_monthly', array($this, 'taskNotifyWaitingMonthly'));
 		add_action('admin_init', array($this, 'adminInit'));
 		add_action('admin_menu', array($this, 'adminMenu'));
 		add_action('plugin_action_links_' . GPNOTIFY_PLUGIN_NAME, array($this, 'pluginActionLinks'));
 		add_filter('plugin_row_meta', array($this, 'addPluginDetailsLinks'), 10, 2);
+
+		add_filter( 'cron_schedules', array($this, 'custom_cron_job_custom_recurrence') );
 	}
 
 	/**
@@ -45,6 +49,7 @@ class GPNotifyPlugin {
 	public function deactivate() {
 		// remove scheduled tasks
 		wp_clear_scheduled_hook(GPNOTIFY_TASK_NOTIFY_WAITING);
+		wp_clear_scheduled_hook('gpnotify_waiting_weekly');
 	}
 
 	/**
@@ -61,6 +66,23 @@ class GPNotifyPlugin {
 		if (!wp_next_scheduled(GPNOTIFY_TASK_NOTIFY_WAITING)) {
 			wp_schedule_event(time() + 5, 'daily', GPNOTIFY_TASK_NOTIFY_WAITING);
 		}
+		if (!wp_next_scheduled('gpnotify_waiting_weekly')) {
+			$next_week = strtotime(date('Y-m-d 00:00:00', strtotime('next Monday')));
+			wp_schedule_single_event($next_week, 'gpnotify_waiting_weekly');
+		}
+		if (!wp_next_scheduled('gpnotify_waiting_monthly')) {
+			$next_month = strtotime(date('Y-m-d 00:00:00', strtotime('first day of next month')));
+			wp_schedule_single_event($next_month, 'gpnotify_waiting_monthly');
+		}
+	}
+	
+	// Custom Cron Recurrences
+	public function custom_cron_job_custom_recurrence( $schedules ) {
+		$schedules['weekly'] = array(
+				'display' => __( 'Once Weekly', 'glotpress-notify' ),
+				'interval' => 604800,
+		);
+		return $schedules;
 	}
 
 	/**
@@ -103,7 +125,8 @@ class GPNotifyPlugin {
 				$projects = $glotpress->listProjects();
 
 				// get list of projects with strings waiting for approval / rejection
-				$waiting = $glotpress->listWaitingByProject();
+				$scope = !empty($_REQUEST['scope']) ? $_REQUEST['scope']:'all';
+				$waiting = $glotpress->listWaitingByProject( $scope );
 
 				require GPNOTIFY_PLUGIN_ROOT . 'views/admin-list-projects.php';
 			}
@@ -160,7 +183,8 @@ class GPNotifyPlugin {
 			try {
 				$glotpress = GPNotifyData::getInstance($options['gp_prefix']);
 				$projects = $glotpress->listProjects();
-
+				$translation_sets = $glotpress->listTranslationSets();
+				
 				$project_options = $this->userOptionProjectsGet($user->ID, $options['gp_prefix']);
 
 				// are we saving?
@@ -169,13 +193,28 @@ class GPNotifyPlugin {
 					check_admin_referer('subscribe', 'gpnotify_nonce');
 
 					$project_options['waiting'] = array();
+					$project_options['frequency'] = array();
+					if( !empty($_POST['frequency']) && is_array($_POST['frequency']) ){
+						foreach( $_POST['frequency'] as $f ){
+							if( in_array($f, array('day','week','month')) ){
+								$project_options['frequency'][] = $f;
+							}
+						}
+					}
 					foreach ($projects as $project) {
 						if (!empty($_POST["gpnotify_projects_{$project->id}_waiting"])) {
 							$project_options['waiting'][$project->id] = 1;
+						}else{
+							foreach( $translation_sets[$project->id] as $translation_set ){
+								if (!empty($_POST["gpnotify_sets_{$project->id}"][$translation_set->locale])) {
+									if( empty($project_options['waiting'][$project->id]) ) $project_options['waiting'][$project->id] = array();
+									$project_options['waiting'][$project->id][$translation_set->locale] = 1;
+								}
+							}
 						}
 					}
 					$this->userOptionProjectsUpdate($user->ID, $options['gp_prefix'], $project_options);
-					$update_message = esc_html(__('Subscriptions saved.', 'gpnotify'));
+					$update_message = esc_html(__('Subscriptions saved.', 'glotpress-notify'));
 				}
 
 				$form_action = admin_url('admin.php?page=gpnotify-profile');
@@ -199,6 +238,7 @@ class GPNotifyPlugin {
 		if (!is_array($projects)) {
 			$projects = array(
 				'waiting' => array(),
+				'frequency' => array('day')
 			);
 		}
 
@@ -218,7 +258,7 @@ class GPNotifyPlugin {
 	/**
 	* run scheduled task to notify if there are new waiting strings
 	*/
-	public function taskNotifyWaiting() {
+	public function taskNotifyWaiting( $scope = 'day') {
 		$options = get_option(GPNOTIFY_OPTIONS, array());
 		if (!empty($options['gp_prefix'])) {
 
@@ -229,11 +269,11 @@ class GPNotifyPlugin {
 				$projects = $glotpress->listProjects();
 
 				// get list of projects with strings waiting for approval / rejection
-				$waiting = $glotpress->listWaitingByProject();
+				$waiting = $glotpress->listWaitingByProject($scope);
 
 				// get list of notification subscribers
 				$users = $glotpress->listSubscribers();
-
+ 
 				if (!class_exists('GPNotifyFilterUsers')) {
 					require GPNOTIFY_PLUGIN_ROOT . 'includes/class.GPNotifyFilterUsers.php';
 				}
@@ -242,12 +282,21 @@ class GPNotifyPlugin {
 				foreach ($waiting as $project_id => $translations) {
 					// see if any users want to be notified
 					$users_waiting = $filterUsers->execute($users, $project_id);
-
 					if (!empty($users_waiting)) {
-						$notifier = new GPNotifyWaiting($users_waiting, $options['email_from']);
+						$notifier = new GPNotifyWaiting($users_waiting, $options['email_from'], false, $scope);
 						$subject = sprintf(__('Notification of translations for "%s"', 'glotpress-notify'), $projects[$project_id]->name);
-						$notifier->compose($subject, $translations);
+						$notifier->compose($subject, $translations, $scope);
 						$notifier->send();
+					}
+					//now go through users subscribed to specific locales and send per-local notifications
+					foreach( $translations as $locale => $translation_set ){
+						$users_waiting_by_locale = $filterUsers->execute($users, $project_id, $locale, $scope);
+						if( !empty($users_waiting_by_locale) ){
+							$notifier = new GPNotifyWaiting($users_waiting_by_locale, $options['email_from']);
+							$subject = sprintf(__('Notification of translations for "%1$s" in %2$s', 'glotpress-notify'), $projects[$project_id]->name, $translation_set->locale_name);
+							$notifier->compose($subject, array($translation_set), $scope);
+							$notifier->send();
+						}
 					}
 				}
 			}
@@ -255,6 +304,19 @@ class GPNotifyPlugin {
 				error_log($e->getMessage());
 			}
 		}
+	}
+	public function taskNotifyWaitingWeekly( $scope = 'week' ){
+		$this->taskNotifyWaiting($scope);
+		//schedule for next week again
+		$next_week = strtotime(date('Y-m-d 00:00:00', strtotime('next Monday')));
+		wp_schedule_single_event($next_week, 'gpnotify_waiting_weekly');
+	}	
+	
+	public function taskNotifyWaitingMonthly( $scope = 'month' ){
+		$this->taskNotifyWaiting($scope);
+		//schedule for next month again
+		$next_month = strtotime(date('Y-m-d 00:00:00', strtotime('first day of next month')));
+		wp_schedule_single_event($next_month, 'gpnotify_waiting_monthly');
 	}
 
 	/**
