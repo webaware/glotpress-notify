@@ -8,11 +8,11 @@ if (!defined('ABSPATH')) {
 
 <div class="wrap">
 
-	<h2><?php esc_html_e('GlotPress Notify Projects', 'gpnotify'); ?></h2>
+	<h2><?php esc_html_e('GlotPress Notify Projects', 'glotpress-notify'); ?></h2>
 
 	<?php if (count($waiting) === 0): ?>
 
-		<p><?php esc_html_e('There are no GlotPress projects with translations waiting for approval.', 'gpnotify'); ?></p>
+		<p><?php esc_html_e('There are no GlotPress projects with translations waiting for approval.', 'glotpress-notify'); ?></p>
 
 	<?php else: ?>
 
