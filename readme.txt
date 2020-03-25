@@ -6,7 +6,7 @@ Author URI: http://webaware.com.au/
 Donate link: http://shop.webaware.com.au/donations/?donation_for=GlotPress+Notify
 Tags: glotpress, translations, localization, localisation, language
 Requires at least: 3.7
-Tested up to: 4.4
+Tested up to: 5.4
 Stable tag: 1.0.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
