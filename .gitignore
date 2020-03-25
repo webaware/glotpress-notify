@@ -1,3 +1,6 @@
-.svn
-languages/glotpress-notify.mo
-node_modules
+/.dist/
+/.svn/
+/.vscode/
+/.wordpress.org/
+/node_modules/
+/vendor/

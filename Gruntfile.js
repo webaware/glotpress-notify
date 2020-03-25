@@ -3,47 +3,30 @@ module.exports = function (grunt) {
 	grunt.initConfig({
 		pkg: grunt.file.readJSON("package.json"),
 
-		pot: {
-			options: {
-				text_domain: "glotpress-notify",
-				package_name: "glotpress-notify",
-				msgid_bugs_address: "translate@webaware.com.au",
-				encoding: "UTF-8",
-				dest: "languages/",
-				keywords: [
-					"gettext",
-					"__",
-					"_e",
-					"_n:1,2",
-					"_x:1,2c",
-					"_ex:1,2c",
-					"_nx:4c,1,2",
-					"esc_attr__",
-					"esc_attr_e",
-					"esc_attr_x:1,2c",
-					"esc_html__",
-					"esc_html_e",
-					"esc_html_x:1,2c",
-					"_n_noop:1,2",
-					"_nx_noop:3c,1,2",
-					"__ngettext_noop:1,2"
-				],
-				comment_tag: "translators:"
+		shell: {
+			// @link https://github.com/sindresorhus/grunt-shell
+			dist: {
+				command: [
+					"rm -rf .dist",
+					"mkdir .dist",
+					"git archive HEAD --prefix=<%= pkg.name %>/ --format=zip -9 -o .dist/<%= pkg.name %>-<%= pkg.version %>.zip",
+				].join("&&")
 			},
-			files: {
-				src: [
-					"**/*.php",
-					"!lib/**/*",
-					"!node_modules/**/*"
-				],
-				expand: true
+			wpsvn: {
+				command: [
+					"svn up .wordpress.org",
+					"rm -rf .wordpress.org/trunk",
+					"mkdir .wordpress.org/trunk",
+					"git archive HEAD --format=tar | tar x --directory=.wordpress.org/trunk",
+				].join("&&")
 			}
 		}
 
 	});
 
-	grunt.loadNpmTasks("grunt-pot");
+	grunt.loadNpmTasks("grunt-shell");
 
-	grunt.registerTask("default", [ "pot" ]);
+	grunt.registerTask("release", ["shell:dist"]);
+	grunt.registerTask("wpsvn", ["shell:wpsvn"]);
 
 };
