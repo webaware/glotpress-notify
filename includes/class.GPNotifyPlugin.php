@@ -175,7 +175,7 @@ class GPNotifyPlugin {
 						}
 					}
 					$this->userOptionProjectsUpdate($user->ID, $options['gp_prefix'], $project_options);
-					$update_message = esc_html(__('Subscriptions saved.', 'gpnotify'));
+					$update_message = esc_html(__('Subscriptions saved.', 'glotpress-notify'));
 				}
 
 				$form_action = admin_url('admin.php?page=gpnotify-profile');
