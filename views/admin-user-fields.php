@@ -8,8 +8,8 @@ if (!defined('ABSPATH')) {
 
 <div class="wrap">
 
-	<h2><?php esc_html_e('GlotPress Notify Subscriptions', 'gpnotify'); ?></h2>
-	<p><?php esc_html_e('Receive notifications for GlotPress translation projects.', 'gpnotify'); ?></p>
+	<h2><?php esc_html_e('GlotPress Notify Subscriptions', 'glotpress-notify'); ?></h2>
+	<p><?php esc_html_e('Receive notifications for GlotPress translation projects.', 'glotpress-notify'); ?></p>
 
 	<?php if ($update_message): ?>
 	<div class="updated">
@@ -64,7 +64,7 @@ if (!defined('ABSPATH')) {
 		</table>
 
 		<p class="submit">
-			<input type="submit" name="submit" class="button-primary" value="<?php esc_attr_e('Save Subscriptions', 'gpnotify'); ?>" />
+			<input type="submit" name="submit" class="button-primary" value="<?php esc_attr_e('Save Subscriptions', 'glotpress-notify'); ?>" />
 			<?php wp_nonce_field('subscribe', 'gpnotify_nonce'); ?>
 		</p>
 
